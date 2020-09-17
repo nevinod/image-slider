@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Select the different product</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<style>
+    #container {
+      display: flex;
+      flex-direction: row;
+    }
+    .box {
+      display: flex;
+      flex-direction: row;
+    }
+    .arrow {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: lightgrey;
+      width: 50px;
+      max-height: 100%;
+    }
+    .my-image {
+      display: block;
+      max-height: 300px;
+      max-width: 300px;
+    }
+    .show {
+      display: block;
+    }
+    .hide {
+      display: none;
+    }
+
+
+</style>
+
+<body>
+    <div class='box'>
+      <div class='arrow' onclick='previousSlide()'><</div>
+      <div id='container'></div>
+      <div class='arrow' onclick='nextSlide()'>></div>
+    </div>
+</body>
+
+    <script>
+        const images = [
+          'https://post.greatist.com/wp-content/uploads/sites/3/2020/02/325466_1100-1100x628.jpg',
+          'https://www.treehugger.com/thmb/QBahHNCqX_lwdO5zHPJdRL1T1Wg=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__treehugger__images__2018__07__nature-benefits-40638090d0134ad884c683c0e938260b.jpg',
+          'https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+          'https://i.ytimg.com/vi/Z4ls0-ZGnU4/maxresdefault.jpg'
+        ]
+
+        let container = document.getElementById('container')
+
+        for(let i = 0; i < images.length; i++) {
+          let image = document.createElement('img')
+          image.src = images[i]
+          image.classList.add('my-image')
+          image.id = i
+          if(i == 0 || i == 1) {  //line that determines how many images are shown
+            image.classList.add('show')
+          } else {
+            image.classList.add('hide')
+          }
+          container.appendChild(image)
+        }
+
+        function hide(element) {
+          element.classList.remove('show')
+          element.classList.add('hide')
+        }
+
+        function show(element) {
+          element.classList.remove('hide')
+          element.classList.add('show')
+        }
+
+        function nextSlide() {
+          let showElements = document.getElementsByClassName('show')
+          let lowestId = images.length
+          let highestId = 0
+          for(let i = 0; i < showElements.length; i++) {
+            if(showElements[i].id < lowestId) {
+              lowestId = parseInt(showElements[i].id)
+            } else if(showElements[i].id > highestId) {
+              highestId = parseInt(showElements[i].id)
+            }
+          }
+          if(highestId == images.length - 1) {
+            return
+          }
+          let hideElement = document.getElementById(lowestId)
+          hide(hideElement)
+          let showElement = document.getElementById(highestId + 1)
+          show(showElement)
+        }
+
+    </script>
+</html>
